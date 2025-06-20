@@ -1,5 +1,5 @@
 export interface User {
-    id: number;
+    id?: number;
     korisnickoIme: string;
     ime: string;
     prezime: string;

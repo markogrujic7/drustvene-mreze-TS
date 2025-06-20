@@ -24,4 +24,20 @@ export class UserService {
     }));
 }
 
+  async createUser(user: User): Promise<User> {
+    const response = await fetch(this.apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed. Status: ${response.status}`);
+    }
+
+    return await response.json();
+  }
+  
 }
