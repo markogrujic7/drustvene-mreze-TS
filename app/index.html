@@ -3,11 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Drustvene mreze</title>
     <link rel="stylesheet" href="../dist/index.css">
     <script type="module" src="../dist/index.js"></script>
 </head>
 <body>
-    
-</body>
+    <nav class="navbar">
+        <h1 class="title">Korisnici</h1>
+        <ul class="nav-links">
+            <li><a href="../app/index.html">Svi Korisnici</a></li>
+            <li><a href="../app/usersForm/usersForm.html">Forma Korisnika</a></li>
+        </ul>
+    </nav>
+
+    <div id="container">
+        <table id = "users">
+            <caption>Svi Korisnici</caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Korisnicko Ime</th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Datum Rodjenja</th>
+                </tr>
+            </thead>
+            <tbody id = "usersBody">
+            </tbody>
+        </table>       
+        
+    </div>
+
+    <script type="module" src="../dist/index.js"></script></body>
 </html>
