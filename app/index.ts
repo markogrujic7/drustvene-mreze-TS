@@ -3,7 +3,7 @@ import { User } from "../app/models/user.model";
 
 const userService = new UserService();
 const currentPage = 1;
-const pageSize = 5;
+const pageSize = 10;
 
 
 function ispisiUsers(nizUsera: User[]): void {
