@@ -40,6 +40,14 @@ function ispisiUsers(nizUsera: User[]): void {
       window.location.href = `../app/usersForm/usersForm.html?id=${user.id}`;
     });
     izmeniCell.appendChild(izmeniBtn);
+
+    const deleteCell = noviRed.insertCell();
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Obrisi";
+    deleteBtn.addEventListener("click", () =>{
+      deleteUser(user.id)
+    })
+    deleteCell.appendChild(deleteBtn)
   }
 }
 
@@ -55,6 +63,11 @@ function ucitajSve(): void {
       }
       alert("Došlo je do greške pri učitavanju podataka. Pokušaj ponovo.");
     });
+}
+
+async function deleteUser(id){
+  await userService.delete(id)
+  ucitajSve()
 }
 
 document.addEventListener("DOMContentLoaded", ucitajSve);

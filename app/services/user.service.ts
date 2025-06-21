@@ -57,7 +57,7 @@ export class UserService {
   const response = await fetch(`${this.apiUrl}/${id}`);
 
   if (!response.ok) {
-    throw new Error(`Neuspešan zahtev. Status: ${response.status}`);
+    throw new Error(`Request failed. Status: ${response.status}`);
   }
 
   const userFromApi = await response.json();
@@ -69,6 +69,16 @@ export class UserService {
     prezime: userFromApi.prezime,
     datumRodjenja: new Date(userFromApi.datumRodjenja)
   };
+}
+
+delete(id: string): Promise<void>{
+  return fetch(`${this.apiUrl}/${id}`, {
+    method: 'DELETE'
+  }).then(response =>{
+    if (!response.ok) {
+      throw new Error(`Request failed. Status: ${response.status}`);
+    }
+  })
 }
 
 }
