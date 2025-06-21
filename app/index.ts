@@ -32,6 +32,14 @@ function ispisiUsers(nizUsera: User[]): void {
     const godina = user.datumRodjenja.getFullYear();
 
     datumCell.textContent = `${dan}/${mesec}/${godina}`;
+
+    const izmeniCell = noviRed.insertCell();
+    const izmeniBtn = document.createElement("button");
+    izmeniBtn.textContent = "Izmeni";
+    izmeniBtn.addEventListener("click", () => {
+      window.location.href = `../app/usersForm/usersForm.html?id=${user.id}`;
+    });
+    izmeniCell.appendChild(izmeniBtn);
   }
 }
 

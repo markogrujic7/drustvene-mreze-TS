@@ -15,7 +15,6 @@ export class UserService {
     }
 
     const data = await response.json();
-    console.log("USER", data)
     const users: User[] = data.users ?? [];
 
     return users.map(user => ({
@@ -39,5 +38,37 @@ export class UserService {
 
     return await response.json();
   }
-  
+
+  update(id: string, user: User): Promise<void> {
+    return fetch(`${this.apiUrl}/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Request failed. Status: ${response.status}`);
+        }
+      });
+    }
+
+
+  async getById(id: string): Promise<User> {
+  const response = await fetch(`${this.apiUrl}/${id}`);
+
+  if (!response.ok) {
+    throw new Error(`Neuspešan zahtev. Status: ${response.status}`);
+  }
+
+  const userFromApi = await response.json();
+
+  return {
+    id: userFromApi.id,
+    korisnickoIme: userFromApi.korisnickoIme,
+    ime: userFromApi.ime,
+    prezime: userFromApi.prezime,
+    datumRodjenja: new Date(userFromApi.datumRodjenja)
+  };
+}
+
 }
