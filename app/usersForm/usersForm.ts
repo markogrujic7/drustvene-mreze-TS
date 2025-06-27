@@ -6,6 +6,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
 const status = document.getElementById('status') as HTMLParagraphElement;
 const button = document.getElementById('submitBtn') as HTMLButtonElement;
+const spinner = document.getElementById('spinner') as HTMLDivElement;
 
 if (id) {
   userService.getById(id).then((user) => {
@@ -35,6 +36,7 @@ if (id) {
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+  spinner.classList.remove("hidden");
 
   const userData = {
     korisnickoIme: (document.getElementById('dodajKorisnickoIme') as HTMLInputElement).value,
@@ -43,32 +45,27 @@ form.addEventListener('submit', async (e) => {
     datumRodjenja: new Date((document.getElementById('dodajDatumRodjenja') as HTMLInputElement).value)
   };
 
-  if (id) {
-    status.textContent = "Cuvanje korisnika...";
-    const userDataWithId = { ...userData, id: Number(id) };
-    userService.update(id, userDataWithId)
-      .then(() => {
-        window.location.href = "../index.html";
-      })
-      .catch((error: Error) => {
-        console.error('Greška:', error.message);
-        alert('Došlo je do greške pri menjanju podataka');
-      });
-  } else {
-    status.textContent = "Cuvanje korisnika...";
+  try {
+    status.textContent = "Čuvanje korisnika...";
     button.disabled = true;
 
-    userService.createUser(userData)
-      .then(() => {
-        form.reset();
-        button.disabled = false;
-        alert('Korisnik uspešno dodat!');
-        window.location.href = "../index.html";
-      })
-      .catch((error: Error) => {
-        console.error('Greška:', error.message);
-        alert('Došlo je do greške pri dodavanju korisnika');
-      });
+    if (id) {
+      const userDataWithId = { ...userData, id: Number(id) };
+      await userService.update(id, userDataWithId);
+    } else {
+      await userService.createUser(userData);
+      form.reset();
+      alert('Korisnik uspešno dodat!');
+    }
+
+    window.location.href = "../index.html";
+
+  } catch (error) {
+    console.error("Greška:", error.message);
+    status.textContent = "Čuvanje neuspešno...";
+    alert("Došlo je do greške.");
+  } finally {
+    spinner.classList.add("hidden");
+    button.disabled = false;
   }
 });
-
