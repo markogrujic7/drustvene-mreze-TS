@@ -25,7 +25,11 @@
     <input type="text" id="dodajPrezime" name="prezime" required>
     <label for="dodajDatumRodjenja">Datum Rodjenja:</label>
     <input type="date" id="dodajDatumRodjenja" name="datumRodjenja" required>
-    <button type="submit" id="submitBtn">Dodaj</button>
+    <div id="tooltip">
+        <button type="submit" id="submitBtn">Dodaj</button>
+        <span class="tooltiptext">Dodaj Korisnika</span>
+    </div>
+    <span id="status"></span>
 </form>
 
     <script type="module" src="../../dist/usersForm/usersForm.js"></script>

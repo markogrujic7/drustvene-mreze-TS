@@ -4,6 +4,8 @@ const userService = new UserService();
 const form = document.getElementById('dodajForm') as HTMLFormElement;
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
+const status = document.getElementById('status') as HTMLParagraphElement;
+const button = document.getElementById('submitBtn') as HTMLButtonElement;
 
 if (id) {
   userService.getById(id).then((user) => {
@@ -22,8 +24,7 @@ if (id) {
     const formattedDate = datum.toISOString().split("T")[0];
     (document.getElementById('dodajDatumRodjenja') as HTMLInputElement).value = formattedDate;
 
-    const dugme = document.getElementById("submitBtn") as HTMLButtonElement;
-    dugme.textContent = "Izmeni";
+    button.textContent = "Izmeni";
   }).catch((error: Error) => {
     console.error("Greška prilikom učitavanja korisnika:", error.message);
     alert("Došlo je do greške pri učitavanju korisnika.");
@@ -43,6 +44,7 @@ form.addEventListener('submit', async (e) => {
   };
 
   if (id) {
+    status.textContent = "Cuvanje korisnika...";
     const userDataWithId = { ...userData, id: Number(id) };
     userService.update(id, userDataWithId)
       .then(() => {
@@ -53,9 +55,13 @@ form.addEventListener('submit', async (e) => {
         alert('Došlo je do greške pri menjanju podataka');
       });
   } else {
+    status.textContent = "Cuvanje korisnika...";
+    button.disabled = true;
+
     userService.createUser(userData)
       .then(() => {
         form.reset();
+        button.disabled = false;
         alert('Korisnik uspešno dodat!');
         window.location.href = "../index.html";
       })
